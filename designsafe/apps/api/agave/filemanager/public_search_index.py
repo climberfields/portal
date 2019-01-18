@@ -409,6 +409,14 @@ class PublicElasticFileManager(BaseFileManager):
             """
         return listing
 
+    #get nees project metadata
+    #takes query_string which is the "name" of the project
+    def nees_project_metadata(self, query_string, offset=0, limit=100, status='published'):
+        query = Q({"term": {"name._exact": query_string}})
+        search = LegacyPublicationIndexed.search().query(query)
+        result = search.execute().to_dict()
+        return result
+
     def search(self, system, query_string,
                file_path=None, offset=0, limit=100, sort=None, status='published'):
         files_limit = limit

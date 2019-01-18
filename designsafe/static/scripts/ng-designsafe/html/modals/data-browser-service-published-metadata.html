@@ -121,6 +121,9 @@
                         <th class="col-lg-10"></th>
                     </tr>
                 </thead>
+                <div style="width=100%">
+                    <p><strong>Experiment</strong></p>
+                </div>
                 <tbody ng-repeat="experiment in data.file.metadata.experiments | orderBy: nameOrder">
                     <tr>
                         <td class="col-lg-2">{{experiment.name}}</td>

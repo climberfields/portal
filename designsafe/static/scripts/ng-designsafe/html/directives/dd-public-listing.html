@@ -10,7 +10,7 @@
         <th style="width: 100px;">Date of Publication</th>
         <th style="width: 100px;">Project Type</th>
         <th style="width: 100px;">Project Number</th>
-        <th style="width: 100px;">NEES Project Metadata</th>
+        <th style="width: 100px;">NEES Project Metadata</th> <!-- TODO: Delete this line -->
         </thead>
 
         <tbody>
@@ -25,30 +25,41 @@
                     {{ renderName()(item) }}
                 </a>
             </td>
+
+            <!-- list the PI, if any -->
             <td ng-if="item.meta.piLabel">
                 {{item.meta.piLabel}}
             </td>
             <td ng-if="!item.meta.pi">
               N/A
             </td>
+
+            <!-- list the date of publication, if any -->
             <td ng-if="item.meta.dateOfPublication">
               {{ item.meta.dateOfPublication| date: 'MMM/d/yyyy'}}
             </td>
             <td ng-if="!item.meta.dateOfPublication">
               N/A
             </td>
+
+            <!-- list the project type, if any -->
             <td ng-if="item.meta.type">
               <span style="text-transform:capitalize;">{{ item.meta.type }}</span>
             </td>
             <td ng-if="!item.meta.type">
               N/A
             </td>
+
+            <!-- list the project id, if any -->
             <td ng-if="item.meta.projectId">
               {{ item.meta.projectId }}
             </td>
             <td ng-if="!item.meta.projectId">
               N/A
             </td>
+
+            <!-- list the view metadata button for nees projects -->
+            <!-- TODO: Delete below this line -->
             <td ng-if="item.system === 'nees.public'" ng-click="onMetadata()($event, item)">
               <button class="btn btn-sm btn-default" ng-click="onMetadata()($event, item)">
                 <i class="fa fa-tags"></i>View Metadata
@@ -57,6 +68,7 @@
             <td ng-if="item.system !== 'nees.public'">
                 N/A
             </td>
+            <!-- TODO: Delete above this line -->
         </tr>
         <tr ng-if="browser.busyListingPage">
           <td>
@@ -66,8 +78,8 @@
           </td>
         </tr>
         </tbody>
+        
         <caption>
-
             <div ng-if="browser.busy"
                  style="padding:10px; font-size:large; width:100%;"
                  class="bg-info">

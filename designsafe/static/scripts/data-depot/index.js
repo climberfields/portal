@@ -492,6 +492,35 @@ function config($httpProvider, $locationProvider, $stateProvider, $urlRouterProv
         }]
       }
     })
+    .state('publishedNeesData', {
+      url: '/public/nees.public/{filePath:any}',
+      controller: 'PublishedDataCtrl',
+      template: require('./templates/published-nees-data-listing.html'),
+      params: {
+        systemId: 'nees.public',
+        filePath: ''
+      },
+      resolve: {
+        'listing': ['$stateParams', 'DataBrowserService', function ($stateParams, DataBrowserService) {
+          var systemId = $stateParams.systemId || 'nees.public';
+          var filePath = $stateParams.filePath;
+          DataBrowserService.apiParams.fileMgr = 'published';
+          DataBrowserService.apiParams.baseUrl = '/api/public/files';
+          DataBrowserService.apiParams.searchState = 'publicDataSearch';
+          return DataBrowserService.browse({ system: systemId, path: filePath });
+        }],
+        'auth': function ($q) {
+          return true;
+        },
+        userAuth: ['UserService', function (UserService) {
+          return UserService.authenticate().then(function (resp) {
+            return true;
+          }, function (err) {
+            return false;
+          });
+        }]
+      }
+    })
     .state('publishedData', {
       url: '/public/designsafe.storage.published/{filePath:any}',
       //controller: 'PublishedDataCtrl',
