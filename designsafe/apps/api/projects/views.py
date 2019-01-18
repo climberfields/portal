@@ -31,7 +31,8 @@ from designsafe.apps.projects.models.agave.experimental import (
     Event, Analysis, SensorList, Report)
 from designsafe.apps.projects.models.agave import simulation, hybrid_simulation
 from designsafe.apps.api.agave.filemanager.public_search_index import (PublicationManager,
-                                                                       Publication)
+                                                                       Publication,
+                                                                       PublicElasticFileManager)
 logger = logging.getLogger(__name__)
 metrics = logging.getLogger('metrics.{name}'.format(name=__name__))
 
@@ -90,6 +91,14 @@ class PublicationView(BaseApiView):
                                             'schedule for publication',
                                  'status': status}},
                             status=200)
+
+class NeesPublicationView(BaseApiView):
+    @profile_fn
+    def get(self, request, nees_id):
+        p = PublicElasticFileManager(request.user.agave_oauth.client)
+        pub = p.nees_project_metadata(nees_id)
+        return JsonResponse(pub)
+
 
 class ProjectListingView(SecureMixin, BaseApiView):
     @profile_fn
